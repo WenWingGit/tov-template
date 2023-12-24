@@ -1,5 +1,5 @@
 <template>
-	<Navigation />
+	<!-- <Navigation /> -->
 	<div class="w-screen flex flex-col items-center justify-center">
 		<router-view v-slot="{ Component }">
 			<transition name="fade" mode="out-in">

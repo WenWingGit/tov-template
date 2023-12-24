@@ -7,7 +7,7 @@ useTitle(
 			return `· ${meta.title}`
 		}
 		if (path === '/') {
-			return '· home'
+			return '· 首页'
 		}
 		return path.replaceAll('/', ' · ')
 	},
