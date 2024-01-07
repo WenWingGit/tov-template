@@ -4,6 +4,12 @@
 		class="flex flex-col pt-10"
 		element-loading-text="正在处理中...请不要刷新或者离开页面"
 	>
+		<button @click="onChangeTheme">toggleTheme</button>
+		<Son ref="sonRef" />
+		<Test />
+		<Props />
+		<Emits @aa="handleEmit" />
+
 		<div class="flex items-center pb-10">
 			<div class="pr-5 text-center text-3xl">在线处理</div>
 			<el-select v-model="selected_type" @change="handleTypeChange">
@@ -59,9 +65,13 @@
 		</div>
 	</div>
 </template>
+
 <script setup lang="ts">
 import { UploadFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import Son from '~/components/Son.vue'
+import { THEMEKEY } from '~/symbolKey'
+import type { ThemeType } from '~/symbolKey'
 
 const upload_api_url = ref(
 	'http://8.134.96.14:3002/segment-hd-body' ||
@@ -134,7 +144,7 @@ const handleError = () => {
 	ElMessage.error('上传图片过程失败!')
 }
 
-//
+// 接口类型
 const selected_type = ref('1')
 const types = [
 	{
@@ -146,7 +156,25 @@ const types = [
 const handleTypeChange = (val: any) => {
 	console.log(val)
 }
+
+const theme = ref<ThemeType>('light')
+provide(THEMEKEY, theme)
+
+const onChangeTheme = () => {
+	theme.value = theme.value === 'light' ? 'dark' : 'light'
+}
+
+const handleEmit = (name: string) => {
+	sonRef.value?.initData()
+
+	alert(`接收到了${name}`)
+}
+
+type SonInstanceType = InstanceType<typeof Son>
+
+const sonRef = ref<SonInstanceType | null>(null)
 </script>
+
 <style lang="scss" scoped>
 .composite-img-container {
 	margin-left: 100px;
